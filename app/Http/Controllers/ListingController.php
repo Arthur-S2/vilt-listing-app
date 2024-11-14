@@ -74,7 +74,7 @@ class ListingController extends Controller implements HasMiddleware
         }
         $fields['tags'] =  implode(',', array_unique(array_filter(array_map('trim', explode(',', $request->tags)))));
         $request->user()->listings()->create($fields);
-        return redirect()->route('dashboard')->with('status', 'Listing created successfully.');
+        return redirect()->route('dashboard')->with('status', 'Listing created successfully');
     }
 
     /**
