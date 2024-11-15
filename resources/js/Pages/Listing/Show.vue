@@ -4,6 +4,7 @@ import { router } from '@inertiajs/vue3';
 const props = defineProps({
     listing: Object,
     user: Object,
+    canModify: Boolean
 })
 const deleteListing = () => {
     if (confirm('Are you sure?')) {
@@ -29,7 +30,8 @@ const deleteListing = () => {
                     </p>
 
                     <!-- Edit and delete buttons -->
-                    <div class="flex items-center gap-4 pl-4">
+                    <div v-if="canModify" class="flex items-center gap-4 pl-4">
+
                         <Link :href="route('listing.edit', listing.id)"
                             class="px-6 py-2 text-white bg-green-500 rounded-md hover:outline outline-green-500 outline-offset-2">
                         Edit
