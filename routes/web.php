@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
 //User profile routes
 Route::middleware(['auth'])->group(function () {
@@ -20,7 +21,10 @@ Route::get('/', [ListingController::class, 'index'])->name('home');
 Route::resource('listing', ListingController::class)->except('index');
 
 // Admin routes
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+Route::middleware(['auth', 'verified', Admin::class])->controller(AdminController::class)->group(function () {
+    Route::get('/admin', 'index')->name('admin.index');
+});
 
 
 //Auth Routes
