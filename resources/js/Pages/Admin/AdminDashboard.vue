@@ -1,15 +1,18 @@
 <script setup>
 import PaginationLinks from '../../Components/PaginationLinks.vue';
-
+import RoleSelect from '../../Components/RoleSelect.vue';
+import SessionMessages from '../../Components/SessionMessages.vue';
 
 defineProps({
-    users: Object
+    users: Object,
+    status: String,
 })
 </script>
 
 <template>
 
     <Head title="- Admin" />
+    <SessionMessages :status="status" />
     <!-- Heading -->
     <div>
         Heading
@@ -32,7 +35,7 @@ defineProps({
                     <p class="text-xs font-light">{{ user.email }}</p>
                 </td>
                 <td class="w-2/6 px-3 py-5">
-                    {{ user.role }}
+                    <RoleSelect :user="user" />
                 </td>
                 <td class="w-1/6 px-3 py-5">
                     <div class="flex items-center gap-6">
