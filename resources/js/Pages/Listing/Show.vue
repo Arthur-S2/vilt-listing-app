@@ -1,14 +1,22 @@
 <script setup>
 import Container from '../../Components/Container.vue';
+
 import { router } from '@inertiajs/vue3';
 const props = defineProps({
     listing: Object,
     user: Object,
-    canModify: Boolean
+    canModify: Boolean,
+    status: String
 })
 const deleteListing = () => {
     if (confirm('Are you sure?')) {
         router.delete(route('listing.destroy', props.listing.id))
+    }
+}
+const toggleApprove = () => {
+    let msg = props.listing.approved ? 'Disapprove this listing?' : 'Approve this listing?'
+    if (confirm(msg)) {
+        router.put(route('admin.approve', props.listing.id))
     }
 }
 
@@ -16,6 +24,15 @@ const deleteListing = () => {
 <template>
 
     <Head title="- Listing Detail" />
+
+    <!-- Admin -->
+    <div v-if="$page.props.auth.user && $page.props.auth.user.role === 'admin'"
+        class="flex items-center justify-between p-6 mb-6 font-medium text-white rounded-md bg-slate-800">
+        <p>This listing is {{ listing.approved ? 'Approved' : 'Disapproved' }}</p>
+        <button @click.prevent="toggleApprove" class="px-3 py-1 rounded-md bg-slate-600">
+            {{ listing.approved ? 'Disapprove it' : 'Approve it' }}
+        </button>
+    </div>
     <Container class="flex gap-4">
         <div class="w-1/4 overflow-hidden rounded-md">
             <img class="object-cover object-center w-full h-full"
